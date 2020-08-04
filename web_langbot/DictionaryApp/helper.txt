@@ -1,0 +1,3 @@
+Поиск перевода в переводах
+Translation.objects.filter(translation__tr__contains = "дикий").first()
+

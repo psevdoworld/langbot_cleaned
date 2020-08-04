@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-chart">
+                <div class="card-header">
+                    Сегодня
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td>Новых пользователей:</td>
+                            <td>{{data.register.today}}</td>
+                        </tr>
+                        <tr>
+                            <td>Зашли в бота:</td>
+                            <td>{{data.used.today}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-chart">
+                <div class="card-header">
+                    Неделя
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td>Новых пользователей:</td>
+                            <td>{{data.register.last_week}}</td>
+                        </tr>
+                        <tr>
+                            <td>Зашли в бота:</td>
+                            <td>{{data.used.last_week}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-chart">
+                <div class="card-header">
+                    Месяц
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td>Новых пользователей:</td>
+                            <td>{{data.register.last_month}}</td>
+                        </tr>
+                        <tr>
+                            <td>Зашли в бота:</td>
+                            <td>{{data.used.last_month}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card card-chart">
+                <div class="card-header">
+                    Другие данные
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td>Всего пользователей</td>
+                            <td>{{data.another.all_user}}</td>
+                        </tr>
+                        <tr>
+                            <td>Не заходили больше 7 дней</td>
+                            <td>{{data.another.not_active}}</td>
+                        </tr>
+                        <tr>
+                            <td>Оплачена подписка</td>
+                            <td>{{data.another.subscribe}}</td>
+                        </tr>
+                        <tr>
+                            <td>Среднее время жизни пользователя</td>
+                            <td>{{data.another.average_life}}</td>
+                        </tr>
+                        <tr>
+                            <td>Пришли по реферальной программе</td>
+                            <td>{{data.another.count_referal}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="card card-chart">
+                <div class="card-header">
+                    Оплаты
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <th></th>
+                        <th>Сегодня</th>
+                        <th>Неделя</th>
+                        <th>Месяц</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>За месяц (159 р):</td>
+                            <td>{{data.transaction.today.one_m}}</td>
+                            <td>{{data.transaction.last_week.one_m}}</td>
+                            <td>{{data.transaction.last_month.one_m}}</td>
+                        </tr>
+                        <tr>
+                            <td>За 3 месяца (299 р):</td>
+                            <td>{{data.transaction.today.tree_m}}</td>
+                            <td>{{data.transaction.last_week.tree_m}}</td>
+                            <td>{{data.transaction.last_month.tree_m}}</td>
+                        </tr>
+                        <tr>
+                            <td>За год (999 р):</td>
+                            <td>{{data.transaction.today.year}}</td>
+                            <td>{{data.transaction.last_week.year}}</td>
+                            <td>{{data.transaction.last_month.year}}</td>
+                        </tr>
+                        <tr>
+                            <td>Сумма:</td>
+                            <td> {{data.transaction.today.sum}}</td>
+                            <td>{{data.transaction.last_week.sum}}</td>
+                            <td>{{data.transaction.last_month.sum}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card card-chart">
+                <div class="card-header">
+                    Привлечение рефералов (топ 10)
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tbody>
+                        {% for user in data.referal %}
+                        <tr>
+                            <td>{{user.0}}</td>
+                            <td>{{user.1}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-chart">
+                <div class="card-header card-header-warning">
+                    <div class="ct-chart" id="newUserChart"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Новые пользователи</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-chart">
+                <div class="card-header card-header-info">
+                    <div class="ct-chart" id="actionChart"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Активные пользователи</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

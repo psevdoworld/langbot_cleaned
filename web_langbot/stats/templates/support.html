@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-outline-primary pull-right" href="/admin/stats/supportmessage/">
+                открыть все сообщения
+                <div class="ripple-container"></div>
+            </a>
+            <!--                  <button-->
+            <!--                    class="btn btn-outline-primary open-AddReplyDialog pull-right mr-3"-->
+            <!--                            data-id="{{mail.id}}"-->
+            <!--                            data-text="{{mail.text}}"-->
+            <!--                            data-toggle="modal"-->
+            <!--                            data-target="#reply_modal">-->
+            <!--                    Создать новую-->
+            <!--                  </button>-->
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-tabs card-header-primary">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <span class="nav-tabs-title">Неотвеченые сообщения</span>
+                        <!--                      <ul class="nav nav-tabs" data-tabs="tabs">-->
+                        <!--                        <li class="nav-item">-->
+                        <!--                          <a class="nav-link active" href="/admin/stats/supportmessage/">-->
+                        <!--                            открыть все сообщения-->
+                        <!--                            <div class="ripple-container"></div>-->
+                        <!--                          </a>-->
+                        <!--                        </li>-->
+                        <!--                      </ul>-->
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class=" text-primary">
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            id пользователя
+                        </th>
+                        <th>
+                            username
+                        </th>
+                        <th>
+                            Текст сообщения
+                        </th>
+                        <th>
+                            Дата
+                        </th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        {% for message in messages %}
+                        <tr>
+                            <td>
+                                {{message.id}}
+                            </td>
+                            <td>
+                                {{message.chat_id}}
+                            </td>
+                            <td>
+                                {{message.username}}
+                            </td>
+                            <td>
+                                {{message.text}}
+                            </td>
+                            <td>
+                                {{message.created}}
+                            </td>
+                            <td class="td-actions ">
+                                <button class="btn btn-primary pull-right open-AddReplyDialog"
+                                        data-id="{{message.id}}"
+                                        data-text="{{message.text}}"
+                                        data-toggle="modal"
+                                        data-target="#reply_modal">Ответить
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+                    <div class="modal fade" id="reply_modal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ответьте на сообщение</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="/stats/support/" method="post">{% csrf_token %}
+                                    <div class="modal-body">
+                                        <b>Текст:</b><i><p id="message-text"></p></i>
+
+                                        <input id="hidden-id" type="text" name="id" class="d-none" val="">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Это сообщение будет отправлено
+                                                    пользователю</label>
+                                                <textarea name="reply" class="form-control" rows="5"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Отправить ответ</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    {% endblock %}
+    {% block js%}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", ".open-AddReplyDialog", function () {
+                var id = $(this).data('id');
+                var message = $(this).data('text');
+                $("#message-text").text(message);
+                $("#hidden-id").val(id);
+
+            });
+        });
+
+    </script>
+    {% endblock js %}

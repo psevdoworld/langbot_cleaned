@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block content %}
+      <div class="content">
+        <div class="row">
+          <div class="col-12">
+                  <a
+                    class="btn btn-outline-primary open-AddReplyDialog pull-right mr-3"
+                  href="/stats/emails.txt">
+                    Скачать  емейлы
+                  </a>
+                  <button
+                    class="btn btn-outline-primary open-AddReplyDialog pull-right mr-3"
+                            data-id="{{mail.id}}"
+                            data-text="{{mail.text}}"
+                            data-toggle="modal"
+                            data-target="#reply_modal">
+                    Создать новую
+                  </button>
+          </div>
+        </div>
+            <div class="col-md-12">
+              <div class="card">
+               <div class="card-header card-header-tabs card-header-primary">
+                  <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                    <span class="nav-tabs-title">Все рассылки</span>
+<!--                      <ul class="nav nav-tabs pull-right" data-tabs="tabs">-->
+<!--                        <li class="nav-item">-->
+<!--                          <button-->
+<!--                            class="nav-link open-AddReplyDialog mr-3"-->
+<!--                                    data-id="{{mail.id}}"-->
+<!--                                    data-text="{{mail.text}}"-->
+<!--                                    data-toggle="modal"-->
+<!--                                    data-target="#reply_modal">-->
+<!--                            Создать новую-->
+<!--                          </button>-->
+<!--                        </li>-->
+<!--                      </ul>-->
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          ID
+                        </th>
+                        <th>
+                            Текст сообщения
+                        </th>
+                        <th></th>
+                        <th>
+                           Создана
+                        </th>
+                        <th>
+                          Отправлены
+                        </th>
+                        <th>
+                          Протестирована
+                        </th>
+                        <th>
+                          Скольким доставлено
+                        </th>
+                      <th></th>
+                      </thead>
+                      <tbody>
+                      {% for mail in data %}
+                        <tr>
+                          <td>
+                            {{mail.id}}
+                          </td>
+                          <td style="width: 30%">
+                            {{mail.text}}
+
+                          </td>
+                          <td  class="td-actions" >
+                             <button class="btn btn-primary open-AddReplyDialog ml-3"
+                                    data-id="{{mail.id}}"
+                                    data-text="{{mail.text}}"
+                                    data-toggle="modal"
+                                    data-target="#reply_modal"><i class="material-icons">edit</i></button>
+                          </td>
+                            <td>
+                            {{mail.created}}
+                          </td>
+                          <td>
+                             {% if mail.sended%}
+                            {{mail.sended}}
+                            {% else %}
+                            Пока не отправлено
+                            {% endif %}
+
+                          </td>
+                          <td>
+                            {% if mail.tested %}
+                            <i class="material-icons">check</i>
+                            {% endif %}
+                          </td>
+                            <td>
+                            {{mail.count_received}}
+                          </td>
+                          <td class="td-actions text-right">
+                            {% if mail.count_received == 0 %}
+                            {% if mail.tested %}
+                            <a class="btn btn-danger m-2"
+                            href="/stats/mailing/send/{{mail.id}}?type=for_all"
+                            >Отправить всем</a>
+                            {% endif %}
+                             <a class="btn btn-success  m-2"
+                               href="/stats/mailing/send/{{mail.id}}?type=test"
+                              >Тестовая отправка</a>
+                          {% endif %}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+                    <div class="modal fade" id="reply_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Редактировать</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form action="/stats/mailing/" method="post">{% csrf_token %}
+                          <div class="modal-body">
+                              <input id="hidden-id" type="text"  name="id"  class="d-none" val="">
+                              <div class="form-group">
+                                <div class="form-group">
+                                  <textarea class="form-control border" id="text_m" name="text" rows="20"
+                                            maxlength="4000"></textarea>
+                                </div>
+                              </div>
+
+                          </div>
+                            <div class="m-3">
+                              Редактирвоание сообщений поддерживает MarkDown разметку: <br>
+                              *жирный*, _косой_ и `код`<br>
+                              Форатирование ссылок:<br>
+                              [текст ссылки](ссылка)<br>
+                              пример: [Крутой бот](http://botenglish.ru/)<br>
+                               <b>Максимальное количество символов в одном сообщении в телеграме 4000!</b>
+                            </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <button  type="submit" class="btn btn-primary">Сохранить</button>
+                          </div>
+                         </form>
+                        </div>
+                      </div>
+                    </div>
+{% endblock %}
+{% block js%}
+<script  type="text/javascript">
+  $(document).ready(function() {
+    $(document).on("click", ".open-AddReplyDialog", function () {
+     var id = $(this).data('id');
+     var text = $(this).data('text');
+     $("#text_m").val(text);
+     $("#hidden-id").val(id);
+
+    });
+});
+
+</script>
+{% endblock js %}

@@ -1,0 +1,54 @@
+ <div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+      <div class="logo"><a href="/stats" class="simple-text logo-normal">
+          English Bot
+        </a></div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+            {% if s_user %}
+          <li class="nav-item">
+            <a class="nav-link" href="/stats">
+              <i class="material-icons">dashboard</i>
+              <p>Статистика</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/stats/daily">
+              <i class="material-icons">dashboard</i>
+              <p>Дневная статистика</p>
+            </a>
+          </li>
+            {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/stats/support">
+              <i class="material-icons">dashboard</i>
+              <p>Поддержка</p>
+            </a>
+          </li>
+        {% if s_user %}
+          <li class="nav-item ">
+            <a class="nav-link" href="/stats/mailing">
+              <i class="material-icons">dashboard</i>
+              <p>Рассылка</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/admin">
+              <i class="material-icons">dashboard</i>
+              <p>Админка бд</p>
+            </a>
+          </li>
+           <li class="nav-item ">
+            <a class="nav-link text-danger" href="http://botenglish.ru:9001" target="_blank">
+              <i class="material-icons">warning</i>
+              <p>Supervisor</p>
+            </a>
+          </li>
+        {% endif %}
+        </ul>
+      </div>
+    </div>
